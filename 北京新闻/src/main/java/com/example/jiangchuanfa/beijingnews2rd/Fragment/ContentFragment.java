@@ -1,5 +1,6 @@
 package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
+import android.support.annotation.IdRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -50,6 +51,23 @@ public class ContentFragment extends BaseFragment {
         pagers.add(new SettingPager(context));
 
         vp.setAdapter(new MyAdapter());
+
+        rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case  R.id.rb_home:
+                        vp.setCurrentItem(0,false);
+                        break;
+                    case  R.id.rb_news:
+                        vp.setCurrentItem(1,false);
+                        break;
+                    case  R.id.rb_setting:
+                        vp.setCurrentItem(2,false);
+                        break;
+                }
+            }
+        });
 
         rgMain.check(R.id.rb_home);
 
