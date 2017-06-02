@@ -41,7 +41,10 @@ public class GuideActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         initData();
+
         vp.setAdapter(new MyAdapter());
+
+        vp.addOnPageChangeListener(new MyOnPageChangeListener());
     }
 
     private void initData() {
@@ -53,10 +56,10 @@ public class GuideActivity extends AppCompatActivity {
 
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.guide_point_normal);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(GuideActivity.this,10),DensityUtil.dip2px(GuideActivity.this,10));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(GuideActivity.this, 10), DensityUtil.dip2px(GuideActivity.this, 10));
             point.setLayoutParams(params);
-            if(i != 0) {
-               params.leftMargin = DensityUtil.dip2px(GuideActivity.this,10);
+            if (i != 0) {
+                params.leftMargin = DensityUtil.dip2px(GuideActivity.this, 10);
             }
             llPointGroup.addView(point);
         }
@@ -94,4 +97,25 @@ public class GuideActivity extends AppCompatActivity {
     public void onViewClicked() {
     }
 
+    private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(position ==imageViews.size()-1){
+                btnStartMain.setVisibility(View.VISIBLE);
+            } else {
+                btnStartMain.setVisibility(View.GONE);
+            }
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
 }
