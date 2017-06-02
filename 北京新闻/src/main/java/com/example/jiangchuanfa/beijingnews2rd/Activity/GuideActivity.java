@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.jiangchuanfa.beijingnews2rd.R;
+import com.example.jiangchuanfa.beijingnews2rd.Utils.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -52,10 +53,10 @@ public class GuideActivity extends AppCompatActivity {
 
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.guide_point_normal);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10,10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(GuideActivity.this,10),DensityUtil.dip2px(GuideActivity.this,10));
             point.setLayoutParams(params);
             if(i != 0) {
-               params.leftMargin = 10;
+               params.leftMargin = DensityUtil.dip2px(GuideActivity.this,10);
             }
             llPointGroup.addView(point);
         }
