@@ -1,5 +1,6 @@
 package com.example.jiangchuanfa.beijingnews2rd.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.jiangchuanfa.beijingnews2rd.R;
+import com.example.jiangchuanfa.beijingnews2rd.Utils.CacheUtils;
 import com.example.jiangchuanfa.beijingnews2rd.Utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -111,6 +113,10 @@ public class GuideActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_start_main)
     public void onViewClicked() {
+        CacheUtils.putBoolean(this, "start_main", true);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -120,7 +126,7 @@ public class GuideActivity extends AppCompatActivity {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivRedPoint.getLayoutParams();
             params.leftMargin = (int) left;
             ivRedPoint.setLayoutParams(params);
-            Log.e("TAG","position=="+position+",positionOffset=="+positionOffset+",positionOffsetPixels=="+positionOffsetPixels);
+            Log.e("TAG", "position==" + position + ",positionOffset==" + positionOffset + ",positionOffsetPixels==" + positionOffsetPixels);
 
         }
 
