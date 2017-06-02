@@ -25,6 +25,14 @@
         android:textColor="@drawable/btn_start_main_textcolor_selsector"
         android:textSize="18sp" />
 
+    <LinearLayout
+        android:id="@+id/ll_point_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal" />
 
 
 </RelativeLayout>
