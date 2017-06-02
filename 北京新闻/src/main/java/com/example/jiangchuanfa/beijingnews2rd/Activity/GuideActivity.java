@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,9 +32,13 @@ public class GuideActivity extends AppCompatActivity {
     LinearLayout llPointGroup;
     @InjectView(R.id.activity_guide)
     RelativeLayout activityGuide;
+    @InjectView(R.id.iv_red_point)
+    ImageView ivRedPoint;
 
     ArrayList<ImageView> imageViews;
     int[] ids = {R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3};
+    private int leftMargin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,16 @@ public class GuideActivity extends AppCompatActivity {
         vp.setAdapter(new MyAdapter());
 
         vp.addOnPageChangeListener(new MyOnPageChangeListener());
+
+        ivRedPoint.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                llPointGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                leftMargin = llPointGroup.getChildAt(1).getLeft() - llPointGroup.getChildAt(0).getLeft();
+                Log.e("TAG", "leftMargin==" + leftMargin);
+            }
+        });
     }
 
     private void initData() {
@@ -100,12 +116,17 @@ public class GuideActivity extends AppCompatActivity {
     private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            float left = leftMargin * (positionOffset + position);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivRedPoint.getLayoutParams();
+            params.leftMargin = (int) left;
+            ivRedPoint.setLayoutParams(params);
+            Log.e("TAG","position=="+position+",positionOffset=="+positionOffset+",positionOffsetPixels=="+positionOffsetPixels);
 
         }
 
         @Override
         public void onPageSelected(int position) {
-            if(position ==imageViews.size()-1){
+            if (position == imageViews.size() - 1) {
                 btnStartMain.setVisibility(View.VISIBLE);
             } else {
                 btnStartMain.setVisibility(View.GONE);
