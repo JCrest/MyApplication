@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 /**
  * Created by crest on 2017/6/2.
- *
  */
 
 public abstract class BaseFragment extends Fragment {
@@ -37,6 +36,7 @@ public abstract class BaseFragment extends Fragment {
         initData();
     }
 
-    private void initData() {
+    public void initData() {
     }
+
 }
