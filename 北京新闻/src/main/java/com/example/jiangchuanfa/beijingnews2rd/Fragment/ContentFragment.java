@@ -6,25 +6,24 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.jiangchuanfa.beijingnews2rd.Base.BaseFragment;
+import com.example.jiangchuanfa.beijingnews2rd.R;
 
 /**
  * Created by crest on 2017/6/3.
  */
 
-public class ContentMenuFragment extends BaseFragment {
-    TextView textView;
+public class ContentFragment extends BaseFragment {
+
     @Override
     public View initView() {
-        textView = new TextView(context);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
-        return textView;
+
+        View view = View.inflate(context, R.layout.content_fragment, null);
+        return view;
     }
 
     @Override
     public void initData() {
         super.initData();
-        textView.setText("主页面");
+
     }
 }
