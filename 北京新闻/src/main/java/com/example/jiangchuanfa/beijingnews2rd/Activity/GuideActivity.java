@@ -49,6 +49,15 @@ public class GuideActivity extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
             imageView.setBackgroundResource(ids[i]);
             imageViews.add(imageView);
+
+            ImageView point = new ImageView(this);
+            point.setBackgroundResource(R.drawable.guide_point_normal);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10,10);
+            point.setLayoutParams(params);
+            if(i != 0) {
+               params.leftMargin = 10;
+            }
+            llPointGroup.addView(point);
         }
 
     }
