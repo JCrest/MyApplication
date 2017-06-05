@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.jiangchuanfa.beijingnews2rd.Activity.MainActivity;
 import com.example.jiangchuanfa.beijingnews2rd.Base.BaseFragment;
 import com.example.jiangchuanfa.beijingnews2rd.DoMain.NewsCenterBean;
+import com.example.jiangchuanfa.beijingnews2rd.Pager.NewsPager;
 import com.example.jiangchuanfa.beijingnews2rd.R;
 import com.example.jiangchuanfa.beijingnews2rd.Utils.DensityUtil;
 
@@ -43,10 +44,15 @@ public class LeftMenuFragment extends BaseFragment {
                 MainActivity mainActivity = (MainActivity) context;
                 mainActivity.getSlidingMenu().toggle();//关<->开
 
+                //根据位置切换到对应的详情页面
+                switchPager(prePosition);
+
             }
         });
         return listView;
     }
+
+
 
     @Override
     public void initData() {
@@ -60,6 +66,22 @@ public class LeftMenuFragment extends BaseFragment {
 
         adapter = new LeftMenuAdapter();
         listView.setAdapter(adapter);
+
+        switchPager(prePosition);
+
+
+    }
+
+    private void switchPager(int position) {
+        MainActivity mainActivity = (MainActivity) context;
+        //2.得到ContentFragment
+        ContentFragment contentFragment = mainActivity.getContentFragment();
+        //3.得到NewsPager
+        NewsPager newsPager = contentFragment.getNewsPager();
+        //4.调用切换方法
+        newsPager.swichPager(position);
+
+
     }
 
     private class LeftMenuAdapter extends BaseAdapter {

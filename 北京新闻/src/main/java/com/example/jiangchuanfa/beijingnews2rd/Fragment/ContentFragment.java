@@ -26,8 +26,6 @@ import butterknife.InjectView;
 
 /**
  * Created by crest on 2017/6/3.
- *
- *
  */
 
 public class ContentFragment extends BaseFragment {
@@ -61,17 +59,17 @@ public class ContentFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
-                    case  R.id.rb_home:
-                        vp.setCurrentItem(0,false);
-                        Log.e("TAG","选择变化监听的活动0");
+                    case R.id.rb_home:
+                        vp.setCurrentItem(0, false);
+                        Log.e("TAG", "选择变化监听的活动0");
                         break;
-                    case  R.id.rb_news:
-                        vp.setCurrentItem(1,false);
-                        Log.e("TAG","选择变化监听的活动1");
+                    case R.id.rb_news:
+                        vp.setCurrentItem(1, false);
+                        Log.e("TAG", "选择变化监听的活动1");
                         break;
-                    case  R.id.rb_setting:
-                        vp.setCurrentItem(2,false);
-                        Log.e("TAG","选择变化监听的活动2");
+                    case R.id.rb_setting:
+                        vp.setCurrentItem(2, false);
+                        Log.e("TAG", "选择变化监听的活动2");
                         break;
                 }
             }
@@ -87,7 +85,7 @@ public class ContentFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 pagers.get(position).initData();
 
-                if(position==1){
+                if (position == 1) {
                     isSlidingMenu(context, SlidingMenu.TOUCHMODE_MARGIN);
 
 
@@ -111,6 +109,7 @@ public class ContentFragment extends BaseFragment {
 
     }
 
+
     private static void isSlidingMenu(Context context, int touchmodeMargin) {
         MainActivity mainActivity = (MainActivity) context;
         mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeMargin);
@@ -121,6 +120,11 @@ public class ContentFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    public NewsPager getNewsPager() {
+        return (NewsPager) pagers.get(1);
+
     }
 
     private class MyAdapter extends PagerAdapter {
@@ -140,7 +144,7 @@ public class ContentFragment extends BaseFragment {
             View rootView = basePager.rootView;
 //            basePager.initData();//(在这里调用次方法会预加载数据)
             container.addView(rootView);
-            Log.e("TAG","适配器的活动--------------"+position);
+            Log.e("TAG", "适配器的活动--------------" + position);
             return rootView;
         }
 
