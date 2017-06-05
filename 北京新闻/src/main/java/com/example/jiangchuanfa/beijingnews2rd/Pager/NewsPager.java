@@ -18,9 +18,12 @@ import com.example.jiangchuanfa.beijingnews2rd.DetailPager.VoteMenuDetailPager;
 import com.example.jiangchuanfa.beijingnews2rd.DoMain.NewsCenterBean;
 import com.example.jiangchuanfa.beijingnews2rd.Fragment.LeftMenuFragment;
 import com.example.jiangchuanfa.beijingnews2rd.Utils.ConstantUtils;
-import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +91,12 @@ public class NewsPager extends BasePager {
     }
 
     private void processData(String json) {
-        NewsCenterBean newsCenterBean = new Gson().fromJson(json, NewsCenterBean.class);
+//        NewsCenterBean newsCenterBean = new Gson().fromJson(json, NewsCenterBean.class);
+
+
+        //使用系统的API解析json数据
+        NewsCenterBean newsCenterBean = parseJson(json);
+
         Log.e("TAG", "解析成功了哦==" + newsCenterBean.getData().get(0).getChildren().get(0).getTitle());
         datas = newsCenterBean.getData();
 
@@ -113,6 +121,69 @@ public class NewsPager extends BasePager {
         leftMenuFragment.setData(datas);
 
 
+    }
+
+    private NewsCenterBean parseJson(String json) {
+
+        NewsCenterBean newsCenterBean = new NewsCenterBean();
+
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            //解析retcode
+            int retcode = jsonObject.optInt("retcode");
+            //设置数据
+            newsCenterBean.setRetcode(retcode);
+
+
+            //集合
+            JSONArray jsonArray = jsonObject.optJSONArray("data");
+            List<NewsCenterBean.DataBean> data = new ArrayList<>();
+            newsCenterBean.setData(data);
+
+            for(int i = 0; i <jsonArray.length() ; i++) {
+                //数据
+                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                if(jsonObject1 !=null) {
+
+                    NewsCenterBean.DataBean dataBean = new NewsCenterBean.DataBean();
+                    dataBean.setId(jsonObject1.optInt("id"));
+                    dataBean.setType(jsonObject1.optInt("type"));
+                    String title = jsonObject1.optString("title");
+                    dataBean.setTitle(title);
+                    String url = jsonObject1.optString("url");
+                    dataBean.setUrl(url);
+
+                    JSONArray jsonArray1 = jsonObject1.optJSONArray("children");
+
+                    if(jsonArray1 != null) {
+                        List<NewsCenterBean.DataBean.ChildrenBean> children = new ArrayList<>();
+                        //设置children数据的
+                        dataBean.setChildren(children);
+                        for(int i1 = 0; i1 <jsonArray1.length(); i1++) {
+                            JSONObject jsonObject2 = jsonArray1.getJSONObject(i1);
+                            NewsCenterBean.DataBean.ChildrenBean childrenBean = new NewsCenterBean.DataBean.ChildrenBean();
+                            //解析数据了
+                            childrenBean.setId(jsonObject2.optInt("id"));
+                            childrenBean.setType(jsonObject2.optInt("type"));
+                            childrenBean.setTitle(jsonObject2.optString("title"));
+                            childrenBean.setUrl(jsonObject2.optString("url"));
+
+                            //添加数据到集合中
+                            children.add(childrenBean);
+                        }
+                    }
+
+                    //添加到集合中
+                    data.add(dataBean);
+
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return newsCenterBean;
     }
 
     public void swichPager(int prePosition) {
