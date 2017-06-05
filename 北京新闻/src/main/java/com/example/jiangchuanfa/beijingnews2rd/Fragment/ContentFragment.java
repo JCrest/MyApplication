@@ -2,7 +2,6 @@ package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
 import android.support.annotation.IdRes;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -13,6 +12,7 @@ import com.example.jiangchuanfa.beijingnews2rd.Pager.HomePager;
 import com.example.jiangchuanfa.beijingnews2rd.Pager.NewsPager;
 import com.example.jiangchuanfa.beijingnews2rd.Pager.SettingPager;
 import com.example.jiangchuanfa.beijingnews2rd.R;
+import com.example.jiangchuanfa.beijingnews2rd.View.NoViewPager;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import butterknife.InjectView;
 public class ContentFragment extends BaseFragment {
 
     @InjectView(R.id.vp)
-    ViewPager vp;
+    NoViewPager vp;
     @InjectView(R.id.rg_main)
     RadioGroup rgMain;
 
