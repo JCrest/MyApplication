@@ -1,5 +1,6 @@
 package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
+import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.example.jiangchuanfa.beijingnews2rd.Activity.MainActivity;
 import com.example.jiangchuanfa.beijingnews2rd.Base.BaseFragment;
 import com.example.jiangchuanfa.beijingnews2rd.Base.BasePager;
 import com.example.jiangchuanfa.beijingnews2rd.Pager.HomePager;
@@ -15,6 +17,7 @@ import com.example.jiangchuanfa.beijingnews2rd.Pager.NewsPager;
 import com.example.jiangchuanfa.beijingnews2rd.Pager.SettingPager;
 import com.example.jiangchuanfa.beijingnews2rd.R;
 import com.example.jiangchuanfa.beijingnews2rd.View.NoViewPager;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 
@@ -84,6 +87,15 @@ public class ContentFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 pagers.get(position).initData();
 
+                if(position==1){
+                    isSlidingMenu(context, SlidingMenu.TOUCHMODE_MARGIN);
+
+
+                } else {
+                    isSlidingMenu((MainActivity) context, SlidingMenu.TOUCHMODE_NONE);
+
+                }
+
             }
 
             @Override
@@ -95,6 +107,13 @@ public class ContentFragment extends BaseFragment {
 
         rgMain.check(R.id.rb_home);
 
+        isSlidingMenu((MainActivity) context, SlidingMenu.TOUCHMODE_NONE);
+
+    }
+
+    private static void isSlidingMenu(Context context, int touchmodeMargin) {
+        MainActivity mainActivity = (MainActivity) context;
+        mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeMargin);
     }
 
 
