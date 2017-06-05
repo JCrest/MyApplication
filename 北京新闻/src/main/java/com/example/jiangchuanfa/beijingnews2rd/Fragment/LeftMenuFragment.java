@@ -1,13 +1,17 @@
 package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
-import android.graphics.Color;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.jiangchuanfa.beijingnews2rd.Activity.MainActivity;
 import com.example.jiangchuanfa.beijingnews2rd.Base.BaseFragment;
 import com.example.jiangchuanfa.beijingnews2rd.DoMain.NewsCenterBean;
+import com.example.jiangchuanfa.beijingnews2rd.R;
+import com.example.jiangchuanfa.beijingnews2rd.Utils.DensityUtil;
 
 import java.util.List;
 
@@ -16,30 +20,78 @@ import java.util.List;
  */
 
 public class LeftMenuFragment extends BaseFragment {
-    TextView textView;
+    private ListView listView;
+    private LeftMenuAdapter adapter;
     private List<NewsCenterBean.DataBean> datas;
+    private int prePosition = 0;
 
     @Override
     public View initView() {
-        textView = new TextView(context);
-        textView.setTextColor(Color.RED);
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
+        listView = new ListView(context);
+        listView.setDivider(getResources().getDrawable(R.drawable.button_red_pressed));
+        listView.setDividerHeight(3);
+        listView.setPadding(0, DensityUtil.px2dip(context, 400), 0, 0);
+        //设置ListView的item的点击事件
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //记录位置
+                prePosition = position;
+                //适配器刷新
+                adapter.notifyDataSetChanged();//getCount-->getView
 
-        return textView;
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.getSlidingMenu().toggle();//关<->开
+
+            }
+        });
+        return listView;
     }
 
     @Override
     public void initData() {
         super.initData();
-        textView.setText("左侧菜单");
+
     }
 
     //为左侧菜单设置数据的方法
     public void setData(List<NewsCenterBean.DataBean> datas) {
         this.datas = datas;
-        for (int i = 0; i < datas.size(); i++) {
-            Log.e("TAG", "" + datas.get(i).getTitle());
+
+        adapter = new LeftMenuAdapter();
+        listView.setAdapter(adapter);
+    }
+
+    private class LeftMenuAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return datas.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView textView = (TextView) View.inflate(context, R.layout.item_leftmenu, null);
+            if (prePosition == position) {
+                //高亮
+                textView.setEnabled(true);
+            } else {
+                //默认
+                textView.setEnabled(false);
+            }
+            //根据位置得到数据
+            NewsCenterBean.DataBean dataBean = datas.get(position);
+            textView.setText(dataBean.getTitle());
+            return textView;
         }
     }
 }
