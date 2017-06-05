@@ -2,6 +2,8 @@ package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
 import android.support.annotation.IdRes;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -58,16 +60,38 @@ public class ContentFragment extends BaseFragment {
                 switch (checkedId) {
                     case  R.id.rb_home:
                         vp.setCurrentItem(0,false);
+                        Log.e("TAG","选择变化监听的活动0");
                         break;
                     case  R.id.rb_news:
                         vp.setCurrentItem(1,false);
+                        Log.e("TAG","选择变化监听的活动1");
                         break;
                     case  R.id.rb_setting:
                         vp.setCurrentItem(2,false);
+                        Log.e("TAG","选择变化监听的活动2");
                         break;
                 }
             }
         });
+
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pagers.get(position).initData();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        pagers.get(0).initData();
 
         rgMain.check(R.id.rb_home);
 
@@ -95,8 +119,9 @@ public class ContentFragment extends BaseFragment {
         public Object instantiateItem(ViewGroup container, int position) {
             BasePager basePager = pagers.get(position);
             View rootView = basePager.rootView;
-            basePager.initData();
+//            basePager.initData();//(在这里调用次方法会预加载数据)
             container.addView(rootView);
+            Log.e("TAG","适配器的活动--------------"+position);
             return rootView;
         }
 

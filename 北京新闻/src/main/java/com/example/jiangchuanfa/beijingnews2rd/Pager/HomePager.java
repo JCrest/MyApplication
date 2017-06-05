@@ -2,6 +2,7 @@ package com.example.jiangchuanfa.beijingnews2rd.Pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -23,6 +24,9 @@ public class HomePager extends BasePager {
     public void initData() {
 
         super.initData();
+
+        Log.e("TAG","HomePager-数据初始化...");
+
         tv_title.setText("主页");
         textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
