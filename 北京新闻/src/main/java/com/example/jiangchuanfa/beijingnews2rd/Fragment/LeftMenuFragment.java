@@ -1,5 +1,7 @@
 package com.example.jiangchuanfa.beijingnews2rd.Fragment;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,11 +28,13 @@ public class LeftMenuFragment extends BaseFragment {
     private List<NewsCenterBean.DataBean> datas;
     private int prePosition = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View initView() {
         listView = new ListView(context);
-        listView.setDivider(getResources().getDrawable(R.drawable.button_red_pressed));
-        listView.setDividerHeight(3);
+        //listView.setDivider(getResources().getDrawable(R.drawable.button_red_pressed));
+        listView.setDivider(getResources().getDrawable(R.drawable.button_red_pressed,null));
+        listView.setDividerHeight(10);
         listView.setPadding(0, DensityUtil.px2dip(context, 400), 0, 0);
         //设置ListView的item的点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
