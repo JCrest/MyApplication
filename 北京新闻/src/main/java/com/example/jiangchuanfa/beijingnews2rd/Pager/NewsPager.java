@@ -2,6 +2,7 @@ package com.example.jiangchuanfa.beijingnews2rd.Pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.jiangchuanfa.beijingnews2rd.DetailPager.TopicMenuDetailPager;
 import com.example.jiangchuanfa.beijingnews2rd.DetailPager.VoteMenuDetailPager;
 import com.example.jiangchuanfa.beijingnews2rd.DoMain.NewsCenterBean;
 import com.example.jiangchuanfa.beijingnews2rd.Fragment.LeftMenuFragment;
+import com.example.jiangchuanfa.beijingnews2rd.Utils.CacheUtils;
 import com.example.jiangchuanfa.beijingnews2rd.Utils.ConstantUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -62,6 +64,12 @@ public class NewsPager extends BasePager {
         textView.setTextColor(Color.BLUE);
         textView.setText("新闻页面内容");
         fl_content.addView(textView);
+        String saveJson = CacheUtils.getString(context, ConstantUtils.NEWSCENTER_PAGER_URL);
+        if (!TextUtils.isEmpty(saveJson)) {
+            processData(saveJson);
+            Log.e("TAG", "取出缓存的数据..==" + saveJson);
+        }
+
 
         getDataFromNet();
 
@@ -82,6 +90,7 @@ public class NewsPager extends BasePager {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("TAG", "请求成功==" + response);
+                        CacheUtils.putString(context, ConstantUtils.NEWSCENTER_PAGER_URL, response);
                         processData(response);
 
                     }
@@ -108,7 +117,7 @@ public class NewsPager extends BasePager {
 
         //实例化详情页面
         basePagers = new ArrayList<>();
-        basePagers.add(new NewsMenuDetailPager(context,datas.get(0).getChildren()));//新闻详情页面
+        basePagers.add(new NewsMenuDetailPager(context, datas.get(0).getChildren()));//新闻详情页面
         basePagers.add(new TopicMenuDetailPager(context));//专题详情页面
         basePagers.add(new PhotosMenuDetailPager(context));//组图详情页面
         basePagers.add(new InteractMenuDetailPager(context));//互动详情页面
@@ -140,10 +149,10 @@ public class NewsPager extends BasePager {
             List<NewsCenterBean.DataBean> data = new ArrayList<>();
             newsCenterBean.setData(data);
 
-            for(int i = 0; i <jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 //数据
                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                if(jsonObject1 !=null) {
+                if (jsonObject1 != null) {
 
                     NewsCenterBean.DataBean dataBean = new NewsCenterBean.DataBean();
                     dataBean.setId(jsonObject1.optInt("id"));
@@ -155,11 +164,11 @@ public class NewsPager extends BasePager {
 
                     JSONArray jsonArray1 = jsonObject1.optJSONArray("children");
 
-                    if(jsonArray1 != null) {
+                    if (jsonArray1 != null) {
                         List<NewsCenterBean.DataBean.ChildrenBean> children = new ArrayList<>();
                         //设置children数据的
                         dataBean.setChildren(children);
-                        for(int i1 = 0; i1 <jsonArray1.length(); i1++) {
+                        for (int i1 = 0; i1 < jsonArray1.length(); i1++) {
                             JSONObject jsonObject2 = jsonArray1.getJSONObject(i1);
                             NewsCenterBean.DataBean.ChildrenBean childrenBean = new NewsCenterBean.DataBean.ChildrenBean();
                             //解析数据了
